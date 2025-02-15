@@ -34,6 +34,7 @@ jobs:
         id: semver
         uses: paulhatch/semantic-version@v5.4.0
         with:
+          bump_each_commit: true
           branch: develop
           tag_prefix: "v"
           debug: true
