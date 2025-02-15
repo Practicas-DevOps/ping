@@ -34,6 +34,7 @@ jobs:
         id: semver
         uses: paulhatch/semantic-version@v5.4.0
         with:
+          branch: develop
           tag_prefix: "v"
           debug: true
 
@@ -42,4 +43,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ steps.semver.outputs.version }},${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ steps.semver.outputs.version_tag }},${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:latest
