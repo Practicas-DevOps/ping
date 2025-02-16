@@ -42,13 +42,9 @@ jobs:
       - name: Save version number as environment variable
         run: echo "VERSION=${{ steps.semver.outputs.version_tag }}" >> $GITHUB_ENV
 
-      - name:  Set commit hash as environment variable
-        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ env.VERSION }}-${{env.COMMIT_HASH}},${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ env.VERSION }},${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:latest
