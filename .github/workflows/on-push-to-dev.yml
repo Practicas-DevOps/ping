@@ -73,5 +73,5 @@ jobs:
       - name: Commit and push changes
         run: |
           git add .
-          git commit -m "Update image tag to ${{ env.VERSION }}"
+          git commit -m "Update image tag of ${{env.REPO_NAME }} to ${{ env.VERSION }}"
           git push
