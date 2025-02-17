@@ -48,3 +48,30 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ env.VERSION }},${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:latest
+
+      - name: Checkout to Manifests Repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'Practicas-DevOps/ping-pong-app'
+          ref: 'main'
+          token: ${{ secrets.PAT }}
+      - name: Setup Git Config
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "<>"
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r ./scripts/requirements.txt
+
+      - name: Set Image Tag
+        run: python ./scripts/set_tag.py -y ./application/overlays/dev/${{ env.REPO_NAME }}/kustomization.yaml -n ${{ env.VERSION }}
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "Update image tag to ${{ env.VERSION }}"
+          git push
